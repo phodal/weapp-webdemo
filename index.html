@@ -91,57 +91,6 @@
     <!--{{style}}-->
     <!--{{currentstyle}}-->
     <!--{{generateFunc}}-->
-    <page>
-        <view class="container">
-            <view  bindtap="bindViewTap" class="userinfo">
-                <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-                <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-            </view>
-            <view class="usermotto">
-                <text class="user-motto">{{motto}}</text>
-            </view>
-        </view>
-    </page>
-    <script>
-        //app.js
-        App({
-            onLaunch: function () {
-
-            },
-            getUserInfo:function(cb){
-
-            },
-            globalData:{
-                userInfo:null
-            }
-        })
-
-        var app = getApp()
-        Page({
-            data: {
-                motto: 'Hello World',
-                userInfo: {}
-            },
-            //事件处理函数
-            bindViewTap: function() {
-                wx.navigateTo({
-                    url: '../logs/logs'
-                })
-            },
-            onLoad: function () {
-                console.log('onLoad')
-                var that = this
-                //调用应用实例的方法获取全局数据
-                app.getUserInfo(function(userInfo){
-                    //更新数据
-                    that.setData({
-                        userInfo:userInfo
-                    })
-                    that.update()
-                })
-            }
-        })
-    </script>
     <script>
         /*v0.7cc_20160919*/
         var $gwxc
@@ -223,6 +172,45 @@
                 generateFunc: $gwx('map.wxml')
             }
         }))
+    </script>
+    <script src="./asdebug.js"></script>
+    <script>
+        define("app.js", function(require, module){var window={Math:Math}/*兼容babel*/,location,document,navigator,self,localStorage,history,Caches;
+            App({
+                onLaunch: function () {
+
+                },
+                globalData:{
+                    userInfo:null
+                }
+            })
+        });require("app.js")
+        define("pages/index/index.js", function(require, module){var window={Math:Math}/*兼容babel*/,location,document,navigator,self,localStorage,history,Caches;
+            var app = getApp()
+            Page({
+                data: {
+                    motto: 'Hello World',
+                    userInfo: {}
+                },
+                //事件处理函数
+                bindViewTap: function() {
+                    wx.navigateTo({
+                        url: '../logs/logs'
+                    })
+                },
+                onLoad: function () {
+                    console.log('onLoad')
+                    var that = this
+                    //调用应用实例的方法获取全局数据
+                    app.getUserInfo(function(userInfo){
+                        //更新数据
+                        that.setData({
+                            userInfo:userInfo
+                        })
+                    })
+                }
+            })
+        });require("pages/index/index.js")
     </script>
 </head>
 
