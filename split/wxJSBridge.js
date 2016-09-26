@@ -27,24 +27,30 @@
                 paramsString: n,
                 webviewIds: r
             }) : WeixinJSCore.publishHandler(t, n, r)
-        }, l = function (e, t, n) {
+        }, invoke = function (e, t, n) {
             var o = JSON.stringify(t || {}), a = ++i;
             r[a] = n, p(e, o, a)
-        }, d = function (e, t) {
+        }, invokeCallbackHandler = function (e, t) {
             var n = r[e];
             "function" == typeof n && n(t), delete r[e]
-        }, h = function (e, t) {
+        }, on = function (e, t) {
             a[e] = t
-        }, g = function (e, t, n) {
+        }, publish = function (e, t, n) {
             n = n || [], n = JSON.stringify(n);
             var o = u + e, r = JSON.stringify(t);
             f(o, r, n)
-        }, v = function (e, t) {
+        }, subscribe = function (e, t) {
             c[u + e] = t
-        }, y = function (e, t, n, o) {
+        }, subscribeHandler = function (e, t, n, o) {
             var r;
             r = e.indexOf(u) != -1 ? c[e] : a[e], "function" == typeof r && r(t, n, o)
         };
-        e.WeixinJSBridge = {invoke: l, invokeCallbackHandler: d, on: h, publish: g, subscribe: v, subscribeHandler: y}
+        e.WeixinJSBridge = {
+            invoke: invoke,
+            invokeCallbackHandler: invokeCallbackHandler,
+            on: on,
+            publish: publish,
+            subscribe: subscribe,
+            subscribeHandler: subscribeHandler}
     }
 }(this);
