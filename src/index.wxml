@@ -2,7 +2,7 @@
     <!--index.wxml-->
     <view class="container">
       <view  bindtap="bindViewTap" class="userinfo">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+        <image class="userinfo-avatar" src="http://wx.qlogo.cn/mmhead/Q3auHgzwzM7pIm6FdyB5rlkI0JCr9uOr8n7aCIQ4RsyG0oPeicO9pfQ/132" background-size="cover"></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </view>
       <view class="usermotto">

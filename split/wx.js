@@ -9,94 +9,117 @@ wx = function (e) {
     return t.m = e, t.c = n, t.p = "", t(0)
 }([function (e, t, n) {
     "use strict";
-    function i(e) {
-        return l ? void(c[e] = u[e]) : void c.__defineGetter__(e, function () {
+    function callBindEvent(e) {
+        return l ? void(c[e] = bindEvents[e]) : void c.__defineGetter__(e, function () {
             return function () {
                 try {
-                    return u[e].apply(this, arguments)
+                    return bindEvents[e].apply(this, arguments)
                 } catch (e) {
-                    r(e)
+                    reportError(e)
                 }
             }
         })
     }
 
-    function r(e) {
+    function reportError(e) {
         if ("[object Error]" === Object.prototype.toString.apply(e)) {
             if ("WebviewSdkKnownError" == e.type)throw e;
             console.error(e.stack), Reporter.errorReport({key: "webviewSDKScriptError", error: e})
         }
     }
 
-    var o = n(1), a = n(2);
+    var WeixinJSBridge = n(1), a = n(2);
     n(3);
     var routes = [];
     var historyRoute = [];
     var s = !1, c = {}, l = "devtools" === (0, a.getPlatform)(), d = function (e, t) {
-        (0, o.publish)("INVOKE_METHOD", {name: e, args: t})
-    }, u = {
-        invoke: o.invoke, on: o.on, reportIDKey: function (e, t) {
+        (0, WeixinJSBridge.publish)("INVOKE_METHOD", {name: e, args: t})
+    }, bindEvents = {
+        invoke: WeixinJSBridge.invoke, on: WeixinJSBridge.on, reportIDKey: function (e, t) {
             console.warn("reportIDKey has been removed wx")
-        }, reportKeyValue: function (e, t) {
+        },
+        reportKeyValue: function (e, t) {
             console.warn("reportKeyValue has been removed from wx")
-        }, initReady: function () {
-            (0, o.invokeMethod)("initReady")
-        }, redirectTo: function (e) {
+        },
+        initReady: function () {
+            (0, WeixinJSBridge.invokeMethod)("initReady")
+        },
+        redirectTo: function (e) {
             d("redirectTo", e)
-        }, navigateTo: function (e) {
+        },
+        navigateTo: function (e) {
             d("navigateTo", e)
-        }, showKeyboard: function (e) {
-            (0, o.invokeMethod)("showKeyboard", e)
-        }, showDatePickerView: function (e) {
-            (0, o.invokeMethod)("showDatePickerView", e)
-        }, hideKeyboard: function (e) {
-            (0, o.invokeMethod)("hideKeyboard", e)
-        }, insertMap: function (e) {
-            (0, o.invokeMethod)("insertMap", e)
-        }, removeMap: function (e) {
-            (0, o.invokeMethod)("removeMap", e)
-        }, updateMapCovers: function (e) {
-            (0, o.invokeMethod)("updateMapCovers", e)
-        }, getRealRoute: a.getRealRoute, getCurrentRoute: function (e) {
-            (0, o.invokeMethod)("getCurrentRoute", e, {
+        },
+        showKeyboard: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("showKeyboard", e)
+        },
+        showDatePickerView: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("showDatePickerView", e)
+        },
+        hideKeyboard: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("hideKeyboard", e)
+        },
+        insertMap: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("insertMap", e)
+        },
+        removeMap: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("removeMap", e)
+        },
+        updateMapCovers: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("updateMapCovers", e)
+        },
+        getRealRoute: a.getRealRoute, getCurrentRoute: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("getCurrentRoute", e, {
                 beforeSuccess: function (e) {
                     e.route = e.route.split("?")[0]
                 }
             })
-        }, getLocalImgData: function (e) {
-            "string" == typeof e.path ? u.getCurrentRoute({
+        },
+        getLocalImgData: function (e) {
+            "string" == typeof e.path ? bindEvents.getCurrentRoute({
                 success: function (t) {
                     var n = t.route;
-                    e.path = (0, a.getRealRoute)(n || "index.html", e.path), (0, o.invokeMethod)("getLocalImgData", e)
+                    e.path = (0, a.getRealRoute)(n || "index.html", e.path), (0, WeixinJSBridge.invokeMethod)("getLocalImgData", e)
                 }
-            }) : (0, o.invokeMethod)("getLocalImgData", e)
-        }, insertVideoPlayer: function (e) {
-            (0, o.invokeMethod)("insertVideoPlayer", e)
-        }, removeVideoPlayer: function (e) {
-            (0, o.invokeMethod)("removeVideoPlayer", e)
-        }, onAppRoute: function(route) {
+            }) : (0, WeixinJSBridge.invokeMethod)("getLocalImgData", e)
+        },
+        insertVideoPlayer: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("insertVideoPlayer", e)
+        },
+        removeVideoPlayer: function (e) {
+            (0, WeixinJSBridge.invokeMethod)("removeVideoPlayer", e)
+        },
+        onAppRoute: function (route) {
             routes.push(route);
-        }, onWebviewEvent: function (e, t) {
-            var b =  void 0;
-            b = e, (0, o.subscribe)("PAGE_EVENT", function (t) {
+        },
+        onWebviewEvent: function (e, t) {
+            var b = void 0;
+            b = e, (0, WeixinJSBridge.subscribe)("PAGE_EVENT", function (t) {
                 var n = t.data, o = t.eventName, r = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1];
                 e({data: n, eventName: o, webviewId: r})
             })
-        }, onAppRouteDone: function (e, t) {
+        },
+        onAppRouteDone: function (e, t) {
             historyRoute.push(e)
-        }, onAppDataChange: function (e) {
-            (0, o.subscribe)("pageInitData", function (t) {
+        },
+        onAppDataChange: function (e) {
+            console.log("--------------");
+            console.log(0);
+            (0, WeixinJSBridge.subscribe)("pageInitData", function (t) {
                 s === !1 && (s = !0, e(t))
-            }), (0, o.publish)("pageReady", {}), (0, o.subscribe)("appDataChange", function (t) {
+            }), (0, WeixinJSBridge.publish)("pageReady", {}), (0, WeixinJSBridge.subscribe)("appDataChange", function (t) {
                 setTimeout(function () {
                     e(t)
                 }, 0)
             })
-        }, publishPageEvent: function (e, t) {
-            (0, o.publish)("PAGE_EVENT", {eventName: e, data: t})
+        },
+        publishPageEvent: function (e, t) {
+            (0, WeixinJSBridge.publish)("PAGE_EVENT", {eventName: e, data: t})
         }, animationToStyle: a.animationToStyle
     };
-    for (var h in u)i(h);
+    for (var event in bindEvents) {
+        callBindEvent(event);
+    }
     e.exports = c
 }, function (e, t) {
     "use strict";
