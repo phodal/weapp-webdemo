@@ -202,9 +202,9 @@ wx = function (e) {
         }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t)
     }
 
-    function o(e, t) {
+    function getRealRoute(e, t) {
         if (0 === t.indexOf("/"))return t.substr(1);
-        if (0 === t.indexOf("./"))return o(e, t.substr(2));
+        if (0 === t.indexOf("./"))return getRealRoute(e, t.substr(2));
         var n, i, r = t.split("/");
         for (n = 0, i = r.length; n < i && ".." === r[n]; n++);
         r.splice(0, n);
@@ -214,81 +214,82 @@ wx = function (e) {
         return c
     }
 
-    function a(e) {
-        var t = e.animates, n = e.option, i = void 0 === n ? {} : n, r = i.transformOrigin, o = i.transition;
+    function animationToStyle(e) {
+        var t = e.animates, n = e.option, i = void 0 === n ? {} : n, transformOrigin = i.transformOrigin, o = i.transition;
         if ("undefined" == typeof o || "undefined" == typeof t)return {
             transformOrigin: "",
             transform: "",
             transition: ""
         };
         var a = t.filter(function (e) {
-            var t = e.type;
-            return "style" !== t
-        }).map(function (e) {
-            var t = e.type, n = e.args;
-            switch (t) {
-                case"matrix":
-                    return "matrix(" + n.join(",") + ")";
-                case"matrix3d":
-                    return "matrix3d(" + n.join(",") + ")";
-                case"rotate":
-                    return n = n.map(l), "rotate(" + n[0] + ")";
-                case"rotate3d":
-                    return n[3] = l(n[3]), "rotate3d(" + n.join(",") + ")";
-                case"rotateX":
-                    return n = n.map(l), "rotateX(" + n[0] + ")";
-                case"rotateY":
-                    return n = n.map(l), "rotateY(" + n[0] + ")";
-                case"rotateZ":
-                    return n = n.map(l), "rotateZ(" + n[0] + ")";
-                case"scale":
-                    return "scale(" + n.join(",") + ")";
-                case"scale3d":
-                    return "scale3d(" + n.join(",") + ")";
-                case"scaleX":
-                    return "scaleX(" + n[0] + ")";
-                case"scaleY":
-                    return "scaleY(" + n[0] + ")";
-                case"scaleZ":
-                    return "scaleZ(" + n[0] + ")";
-                case"translate":
-                    return n = n.map(c), "translate(" + n.join(",") + ")";
-                case"translate3d":
-                    return n = n.map(c), "translate3d(" + n.join(",") + ")";
-                case"translateX":
-                    return n = n.map(c), "translateX(" + n[0] + ")";
-                case"translateY":
-                    return n = n.map(c), "translateY(" + n[0] + ")";
-                case"translateZ":
-                    return n = n.map(c), "translateZ(" + n[0] + ")";
-                case"skew":
-                    return n = n.map(l), "skew(" + n.join(",") + ")";
-                case"skewX":
-                    return n = n.map(l), "skewX(" + n[0] + ")";
-                case"skewY":
-                    return n = n.map(l), "skewY(" + n[0] + ")";
-                default:
-                    return ""
-            }
-        }).join(" "), s = t.filter(function (e) {
-            var t = e.type;
-            return "style" === t
-        }).reduce(function (e, t) {
-            return e[t.args[0]] = t.args[1], e
-        }, {});
+                var t = e.type;
+                return "style" !== t
+            }).map(function (e) {
+                var t = e.type, n = e.args;
+                switch (t) {
+                    case"matrix":
+                        return "matrix(" + n.join(",") + ")";
+                    case"matrix3d":
+                        return "matrix3d(" + n.join(",") + ")";
+                    case"rotate":
+                        return n = n.map(l), "rotate(" + n[0] + ")";
+                    case"rotate3d":
+                        return n[3] = l(n[3]), "rotate3d(" + n.join(",") + ")";
+                    case"rotateX":
+                        return n = n.map(l), "rotateX(" + n[0] + ")";
+                    case"rotateY":
+                        return n = n.map(l), "rotateY(" + n[0] + ")";
+                    case"rotateZ":
+                        return n = n.map(l), "rotateZ(" + n[0] + ")";
+                    case"scale":
+                        return "scale(" + n.join(",") + ")";
+                    case"scale3d":
+                        return "scale3d(" + n.join(",") + ")";
+                    case"scaleX":
+                        return "scaleX(" + n[0] + ")";
+                    case"scaleY":
+                        return "scaleY(" + n[0] + ")";
+                    case"scaleZ":
+                        return "scaleZ(" + n[0] + ")";
+                    case"translate":
+                        return n = n.map(convertPX), "translate(" + n.join(",") + ")";
+                    case"translate3d":
+                        return n = n.map(convertPX), "translate3d(" + n.join(",") + ")";
+                    case"translateX":
+                        return n = n.map(convertPX), "translateX(" + n[0] + ")";
+                    case"translateY":
+                        return n = n.map(convertPX), "translateY(" + n[0] + ")";
+                    case"translateZ":
+                        return n = n.map(convertPX), "translateZ(" + n[0] + ")";
+                    case"skew":
+                        return n = n.map(l), "skew(" + n.join(",") + ")";
+                    case"skewX":
+                        return n = n.map(l), "skewX(" + n[0] + ")";
+                    case"skewY":
+                        return n = n.map(l), "skewY(" + n[0] + ")";
+                    default:
+                        return ""
+                }
+            }).join(" "),
+            style = t.filter(function (e) {
+                var t = e.type;
+                return "style" === t
+            }).reduce(function (e, t) {
+                return e[t.args[0]] = t.args[1], e
+            }, {});
         return {
-            style: s,
-            transformOrigin: r,
+            style: style,
+            transformOrigin: transformOrigin,
             transform: a,
             transition: o.duration + "ms " + o.timingFunction + " " + o.delay + "ms"
         }
     }
 
-    function s() {
+    function getPlatform() {
         return window.navigator ? window.navigator.userAgent.indexOf("wechatdevtools") > -1 ? "devtools" : "android" : "ios"
     }
 
-    function c(e) {
+    function convertPX(e) {
         return "number" == typeof e ? e + "px" : e
     }
 
@@ -296,7 +297,7 @@ wx = function (e) {
         return e + "deg"
     }
 
-    Object.defineProperty(t, "__esModule", {value: !0}), t.getRealRoute = o, t.animationToStyle = a, t.getPlatform = s;
+    Object.defineProperty(t, "__esModule", {value: !0}), t.getRealRoute = getRealRoute, t.animationToStyle = animationToStyle, t.getPlatform = getPlatform;
     t.WebviewSdkKnownError = function (e) {
         function t(e) {
             n(this, t);
@@ -312,11 +313,11 @@ wx = function (e) {
         "loading" !== document.readyState ? e() : document.addEventListener("DOMContentLoaded", e)
     }
 
-    var r = n(1), o = !1, a = ["log", "warn", "error", "info", "debug"];
-    a.forEach(function (e) {
-        (0, r.subscribe)(e, function (t) {
+    var r = n(1), o = !1, logType = ["log", "warn", "error", "info", "debug"];
+    logType.forEach(function (log) {
+        (0, r.subscribe)(log, function (t) {
             var n = t.log;
-            console[e].apply(console, n)
+            console[log].apply(console, n)
         })
     }), (0, r.subscribe)("initLogs", function (e) {
         var t = e.logs;
