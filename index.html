@@ -37,6 +37,7 @@
         __wxRoute = 'index';
         __wxRouteBegin = true
         __wxConfig = {
+            "debug": true,
             "pages": ["index"],
             "window": {
                 "backgroundTextStyle": "light",
@@ -84,8 +85,14 @@
             "userInfo": {}
         }
     </script>
-    <script src="./WAService.js"></script>
-    <script src="./WAWebview.js"></script>
+    <script src="./split/virtual_dom.js"></script>
+    <script src="./split/wxJSBridge.js"></script>
+    <script src="./split/wa-wx.js"></script>
+    <script src="./split/report.js"></script>
+    <script src="./split/exparser.js"></script>
+    <script src="./split/exparser-behvaior.js"></script>
+    <script src="./split/define.js"></script>
+    <script src="./split/page.js"></script>
     <!--{{allWXML}}-->
     <!--{{eruda}}-->
     <!--{{style}}-->
@@ -173,15 +180,11 @@
             }
         }))
     </script>
-    <script src="./asdebug.js"></script>
     <script>
         define("app.js", function(require, module){var window={Math:Math}/*兼容babel*/,location,document,navigator,self,localStorage,history,Caches;
             App({
                 onLaunch: function () {
 
-                },
-                globalData:{
-                    userInfo:null
                 }
             })
         });require("app.js")
@@ -208,7 +211,7 @@
                     })
                 }
             })
-        });require("pages/index/index.js")
+        });require("pages/index/index.js");
     </script>
 </head>
 

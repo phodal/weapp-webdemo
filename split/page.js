@@ -1,4 +1,4 @@
-__appServiceEngine = function (e) {
+__appServiceEngine = function(e) {
     function t(o) {
         if (n[o])return n[o].exports;
         var r = n[o] = {exports: {}, id: o, loaded: !1};
@@ -7,64 +7,64 @@ __appServiceEngine = function (e) {
 
     var n = {};
     return t.m = e, t.c = n, t.p = "", t(0)
-}([function (e, t, n) {
+}([function(e, t, n) {
     "use strict";
     Object.defineProperty(t, "__esModule", {value: !0});
     var o = n(2);
     Object.defineProperty(t, "Page", {
-        enumerable: !0, get: function () {
+        enumerable: !0, get: function() {
             return o.pageHolder
         }
     });
     var r = n(3);
     Object.defineProperty(t, "App", {
-        enumerable: !0, get: function () {
+        enumerable: !0, get: function() {
             return r.appHolder
         }
     }), Object.defineProperty(t, "getApp", {
-        enumerable: !0, get: function () {
+        enumerable: !0, get: function() {
             return r.getApp
         }
     })
-}, function (e, t, n) {
+}, function(e, t, n) {
     "use strict";
     Object.defineProperty(t, "__esModule", {value: !0});
     var o = n(9);
-    Object.keys(o).forEach(function (e) {
+    Object.keys(o).forEach(function(e) {
         "default" !== e && "__esModule" !== e && Object.defineProperty(t, e, {
-            enumerable: !0, get: function () {
+            enumerable: !0, get: function() {
                 return o[e]
             }
         })
     });
     var r = n(8);
-    Object.keys(r).forEach(function (e) {
+    Object.keys(r).forEach(function(e) {
         "default" !== e && "__esModule" !== e && Object.defineProperty(t, e, {
-            enumerable: !0, get: function () {
+            enumerable: !0, get: function() {
                 return r[e]
             }
         })
     })
-}, function (e, t, n) {
+}, function(e, t, n) {
     "use strict";
     function o(e) {
         return e && e.__esModule ? e : {default: e}
     }
 
     Object.defineProperty(t, "__esModule", {value: !0}), t.getRouteToPage = t.getWebviewIdToPage = t.setWxRouteBegin = t.setWxRoute = t.setWxConfig = t.reset = t.pageHolder = t.getCurrentPage = void 0;
-    var r = n(1), i = n(6), a = o(i), u = n(1), c = n(4), s = void 0, p = {}, f = {}, l = 0, d = {
+    var r = n(1), i = n(6), a = o(i), u = n(1), c = n(4), currentPage = void 0, p = {}, f = {}, l = 0, d = {
         appRouteTime: 0,
         newPageTime: 0,
         pageReadyTime: 0
-    }, h = function (e, t, n) {
+    }, h = function(e, t, n) {
         var o = c.SPEED_REPORT_TYPE[e];
         o && (Reporter.reportKeyValue({
             key: "Speed",
             value: o + "," + t + ",0,0," + n
         }), Reporter.log("JSEngine SpeedReport:" + e + ",startTime:" + t + ",endTime:" + n + ",cost:" + (n - t)))
-    }, g = (t.getCurrentPage = function () {
-        return s
-    }, t.pageHolder = function (e) {
+    }, g = (t.getCurrentPage = function() {
+        return currentPage
+    }, t.pageHolder = function(e) {
         if (!__wxRouteBegin)throw(0, u.error)("Page注册错误", "不要在 " + __wxRoute + ".js 注册多个Page"), new r.AppServiceEngineKnownError("Please do not register multiple Page in " + __wxRoute + ".js");
         __wxRouteBegin = !1;
         var t = __wxConfig.pages, n = t[l];
@@ -74,33 +74,33 @@ __appServiceEngine = function (e) {
         }
         if (l++, "Object" !== (0, u.getDataType)(e))throw(0, u.error)("Page注册错误", __wxRoute + ".js中Page()的参数不是对象: " + JSON.stringify(e)), new r.AppServiceEngineKnownError("Options is not object: " + JSON.stringify(e) + " in " + __wxRoute + ".js");
         (0, u.info)("Register Page: " + n), f[n] = e
-    }, function (e, t, n) {
+    }, function(e, t, n) {
         var o = void 0;
         f.hasOwnProperty(e) ? o = f[e] : ((0, u.warn)("Page[" + e + "] not found. May be caused by: 1. Forgot to add page route in app.json. 2. Invoking Page() in async task."), o = {}), d.newPageTime = Date.now();
         var r = new a.default(o, t, e);
-        (0, u.isDevTools)() && (__wxAppData[e] = r.data, __wxAppData[e].__webviewId__ = t, (0, u.publish)(c.UPDATE_APP_DATA)), s = {
+        (0, u.isDevTools)() && (__wxAppData[e] = r.data, __wxAppData[e].__webviewId__ = t, (0, u.publish)(c.UPDATE_APP_DATA)), currentPage = {
             page: r,
             webviewId: t,
             route: e
         }, r.onLoad(n), r.onShow(), p[t] = {page: r, route: e}, h("appRoute2newPage", d.appRouteTime, d.newPageTime)
-    }), v = function (e) {
+    }), v = function(e) {
         e.page.onHide()
-    }, y = function (e) {
+    }, y = function(e) {
         e.page.onUnload(), (0, u.isDevTools)() && (delete __wxAppData[e.route], (0, u.publish)(c.UPDATE_APP_DATA)), delete p[e.webviewId]
-    }, w = function (e, t, n, o) {
-        if ((0, u.info)("On app route: " + e), d.appRouteTime = Date.now(), "navigateTo" === o)s && v(s), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "navigateTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("redirectTo" === o)s && y(s), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "redirectTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("navigateBack" === o)if (s && y(s), p.hasOwnProperty(t)) {
+    }, w = function(e, t, n, o) {
+        if ((0, u.info)("On app route: " + e), d.appRouteTime = Date.now(), "navigateTo" === o)currentPage && v(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "navigateTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("redirectTo" === o)currentPage && y(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "redirectTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("navigateBack" === o)if (currentPage && y(currentPage), p.hasOwnProperty(t)) {
             var r = p[t].page;
-            s = {webviewId: t, route: e, page: r}, r.onShow()
-        } else(0, u.error)("Page route错误", "navigateBack 一个不存在的webviewId" + t); else if ("switchTab" === o)if (s && v(s), p.hasOwnProperty(t)) {
+            currentPage = {webviewId: t, route: e, page: r}, r.onShow()
+        } else(0, u.error)("Page route错误", "navigateBack 一个不存在的webviewId" + t); else if ("switchTab" === o)if (currentPage && v(currentPage), p.hasOwnProperty(t)) {
             var i = p[t].page;
-            s = {webviewId: t, route: e, page: i}, i.onShow()
+            currentPage = {webviewId: t, route: e, page: i}, i.onShow()
         } else g(e, t, n); else"appLaunch" === o ? p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "apppLaunch 一个已经存在的webviewId" + t) : g(e, t, n) : (0, u.error)("Page route错误", "非法Open type: " + o)
-    }, b = function (e, t, n, o) {
-        if (s)s.page.onRouteEnd(); else if ((0, u.warn)("page isn't ready yet"), p.hasOwnProperty(t)) {
+    }, b = function(e, t, n, o) {
+        if (currentPage)currentPage.page.onRouteEnd(); else if ((0, u.warn)("page isn't ready yet"), p.hasOwnProperty(t)) {
             var r = p[t].page;
-            s = {webviewId: t, route: e, page: r}, r.onRouteEnd()
+            currentPage = {webviewId: t, route: e, page: r}, r.onRouteEnd()
         } else g(e, t, n)
-    }, m = function (e, t, n) {
+    }, m = function(e, t, n) {
         if (!p.hasOwnProperty(e))throw new r.AppServiceEngineKnownError("OnWebviewEvent: " + t + ", WebviewId: " + e + " not found");
         var o = p[e], i = o.page;
         if (t === c.DOM_READY_EVENT)return d.pageReadyTime = Date.now(), i.onReady(), void h("newPage2pageReady", d.newPageTime, d.pageReadyTime);
@@ -112,10 +112,10 @@ __appServiceEngine = function (e) {
             console.error(e.stack), Reporter.errorReport({key: "thirdScriptError", error: e})
         }
         return a
-    }, S = function (e) {
+    }, S = function(e) {
         var t = p[e], n = t.page;
         n.hasOwnProperty("onPullDownRefresh") && ((0, u.info)("Invoke event onPullDownRefresh in page: " + t.route), n.onPullDownRefresh())
-    }, k = function (e, t) {
+    }, k = function(e, t) {
         var n = e, o = p[t], r = o.page;
         if (r.hasOwnProperty("onMenuShareAppMessage")) {
             (0, u.info)("Invoke event onMenuShareAppMessage in page: " + o.route);
@@ -123,7 +123,7 @@ __appServiceEngine = function (e) {
             n.title = i.title || e.title, n.desc = i.desc || e.desc, n.imgUrl = i.imgUrl || e.imgUrl, n.path = i.path ? (0, u.addHtmlSuffixToUrl)(i.path) : e.path, n.shareAppCard = "undefined" != typeof i.shareAppCard && i.shareAppCard
         }
         return n
-    }, _ = function (e, t) {
+    }, _ = function(e, t) {
         var n = e, o = p[t], r = o.page;
         if (r.hasOwnProperty("onMenuShareTimeline")) {
             (0, u.info)("Invoke event onMenuShareTimeline in page: " + o.route);
@@ -132,26 +132,26 @@ __appServiceEngine = function (e) {
         }
         return n
     };
-    wx.onAppRoute((0, u.surroundByTryCatch)(function (e) {
+    wx.onAppRoute((0, u.surroundByTryCatch)(function(e) {
         var t = e.path, n = e.webviewId, o = e.query || {}, r = e.openType;
         w(t, n, o, r)
-    })), wx.onAppRouteDone((0, u.surroundByTryCatch)(function (e) {
+    })), wx.onAppRouteDone((0, u.surroundByTryCatch)(function(e) {
         var t = e.path, n = e.webviewId, o = e.query || {}, r = e.openType;
         b(t, n, o, r)
-    })), wx.onWebviewEvent((0, u.surroundByTryCatch)(function (e) {
+    })), wx.onWebviewEvent((0, u.surroundByTryCatch)(function(e) {
         var t = e.webviewId, n = e.eventName, o = e.data;
         return m(t, n, o)
-    })), WeixinJSBridge.on("onPullDownRefresh", (0, u.surroundByTryCatch)(function (e, t) {
+    })), WeixinJSBridge.on("onPullDownRefresh", (0, u.surroundByTryCatch)(function(e, t) {
         S(t)
-    })), WeixinJSBridge.on("onMenuShareAppMessage", (0, u.surroundByTryCatch)(function (e, t) {
+    })), WeixinJSBridge.on("onMenuShareAppMessage", (0, u.surroundByTryCatch)(function(e, t) {
         var n = k(e, t);
-        WeixinJSBridge.invoke("shareAppMessage", n, function () {
+        WeixinJSBridge.invoke("shareAppMessage", n, function() {
         })
-    })), WeixinJSBridge.on("onMenuShareTimeline", (0, u.surroundByTryCatch)(function (e, t) {
+    })), WeixinJSBridge.on("onMenuShareTimeline", (0, u.surroundByTryCatch)(function(e, t) {
         var n = _(e, t);
-        WeixinJSBridge.invoke("shareTimeline", n, function () {
+        WeixinJSBridge.invoke("shareTimeline", n, function() {
         })
-    })), WeixinJSBridge.subscribe("pageReady", (0, u.surroundByTryCatch)(function (e, t) {
+    })), WeixinJSBridge.subscribe("pageReady", (0, u.surroundByTryCatch)(function(e, t) {
         if (!p.hasOwnProperty(t))throw new r.AppServiceEngineKnownError("App service not ready, webviewId: " + t);
         var n = p[t].page, o = {};
         (0, u.info)("Update view with init data"), (0, u.info)(n.data), o.webviewId = t, __wxConfig && __wxConfig.downloadDomain && (o.downloadDomain = __wxConfig.downloadDomain), (0, u.publish)("pageInitData", {
@@ -161,27 +161,27 @@ __appServiceEngine = function (e) {
                 options: {firstRender: !0}
             }
         }, [t]), n.__webviewReady__ = !0, (0, u.isEmptyObject)(n.__waitingData__) || ((0, u.info)("Update view with waiting data"), (0, u.info)(n.__waitingData__), (0, u.publish)("appDataChange", {data: {data: n.__waitingData__}}, [t]), n.__waitingData__ = {})
-    })), t.reset = function () {
-        s = void 0, p = {}, f = {}, l = 0
-    }, t.setWxConfig = function (e) {
+    })), t.reset = function() {
+        currentPage = void 0, p = {}, f = {}, l = 0
+    }, t.setWxConfig = function(e) {
         __wxConfig = e
-    }, t.setWxRoute = function (e) {
+    }, t.setWxRoute = function(e) {
         __wxRoute = e
-    }, t.setWxRouteBegin = function (e) {
+    }, t.setWxRouteBegin = function(e) {
         __wxRouteBegin = e
-    }, t.getWebviewIdToPage = function () {
+    }, t.getWebviewIdToPage = function() {
         return p
-    }, t.getRouteToPage = function () {
+    }, t.getRouteToPage = function() {
         return f
     }
-}, function (e, t, n) {
+}, function(e, t, appEngine) {
     "use strict";
     function o(e, t) {
         if (!(e instanceof t))throw new TypeError("Cannot call a class as a function")
     }
 
     Object.defineProperty(t, "__esModule", {value: !0}), t.getApp = t.appHolder = void 0;
-    var r = function () {
+    var r = function() {
         function e(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
@@ -189,68 +189,68 @@ __appServiceEngine = function (e) {
             }
         }
 
-        return function (t, n, o) {
+        return function(t, n, o) {
             return n && e(t.prototype, n), o && e(t, o), t
         }
-    }(), i = n(1), a = n(2), u = ["onLaunch", "onShow", "onHide", "onUnlaunch"], c = function (e) {
-        for (var t = 0; t < u.length; ++t)if (u[t] === e)return !0;
+    }(), i = appEngine(1), Page = appEngine(2), pages = ["onLaunch", "onShow", "onHide", "onUnlaunch"], c = function(e) {
+        for (var t = 0; t < pages.length; ++t)if (pages[t] === e)return !0;
         return !1
-    }, s = function (e) {
+    }, isCurrentPage = function(e) {
         return "getCurrentPage" === e
-    }, p = function () {
+    }, app = function() {
         function e(t) {
             var n = this;
-            o(this, e), u.forEach(function (e) {
-                var o = function () {
-                    var n = (t[e] || i.noop).bind(this);
-                    (0, i.info)("App: " + e + " have been invoked");
+            o(this, e), pages.forEach(function(page) {
+                var o = function() {
+                    var n = (t[page] || i.noop).bind(this);
+                    (0, console.log)("App: " + page + " have been invoked");
                     try {
                         n.apply(this, arguments)
                     } catch (e) {
                         console.error(e.stack), Reporter.errorReport({key: "thirdScriptError", error: e})
                     }
                 };
-                n[e] = o.bind(n)
+                n[page] = o.bind(n)
             });
-            for (var r in t)s(r) ? (0, i.warn)("App's " + r + " is write-protected") : c(r) || ("[object Function]" === Object.prototype.toString.call(t[r]) ? this[r] = t[r].bind(this) : this[r] = t[r]);
+            for (var r in t)isCurrentPage(r) ? (0, i.warn)("App's " + r + " is write-protected") : c(r) || ("[object Function]" === Object.prototype.toString.call(t[r]) ? this[r] = t[r].bind(this) : this[r] = t[r]);
             this.onLaunch();
-            var a = function () {
-                var e = this.getCurrentPage();
-                e && e.onHide(), this.onHide()
-            }, p = function () {
+            var hidePage = function() {
+                var page = this.getCurrentPage();
+                page && page.onHide(), this.onHide()
+            }, showPage = function() {
                 this.onShow();
-                var e = this.getCurrentPage();
-                e && e.onShow()
+                var page = this.getCurrentPage();
+                page && page.onShow()
             };
-            WeixinJSBridge.on("onAppEnterBackground", a.bind(this)), WeixinJSBridge.on("onAppEnterForeground", p.bind(this))
+            WeixinJSBridge.on("onAppEnterBackground", hidePage.bind(this)), WeixinJSBridge.on("onAppEnterForeground", showPage.bind(this))
         }
 
         return r(e, [{
-            key: "getCurrentPage", value: function () {
-                var e = (0, a.getCurrentPage)();
+            key: "getCurrentPage", value: function() {
+                var e = (0, Page.getCurrentPage)();
                 if (e)return e.page
             }
         }]), e
     }(), f = void 0;
-    t.appHolder = (0, i.surroundByTryCatch)(function (e) {
-        f = new p(e)
-    }), t.getApp = function () {
+    t.appHolder = (0, i.surroundByTryCatch)(function(e) {
+        f = new app(e)
+    }), t.getApp = function() {
         return f
     }
-}, function (e, t) {
+}, function(e, t) {
     "use strict";
     Object.defineProperty(t, "__esModule", {value: !0}), t.DOM_READY_EVENT = "__DOMReady", t.SPEED_REPORT_TYPE = {
         appRoute2newPage: 8,
         newPage2pageReady: 9
     }, t.UPDATE_APP_DATA = "__updateAppData"
-}, function (e, t, n) {
+}, function(e, t, n) {
     "use strict";
     function o(e, t) {
         if (!(e instanceof t))throw new TypeError("Cannot call a class as a function")
     }
 
     Object.defineProperty(t, "__esModule", {value: !0});
-    var r = function () {
+    var r = function() {
         function e(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
@@ -258,22 +258,22 @@ __appServiceEngine = function (e) {
             }
         }
 
-        return function (t, n, o) {
+        return function(t, n, o) {
             return n && e(t.prototype, n), o && e(t, o), t
         }
-    }(), i = n(1), a = function () {
+    }(), i = n(1), a = function() {
         function e() {
             o(this, e)
         }
 
         return r(e, null, [{
-            key: "emit", value: function (e, t) {
-                (0, i.info)("Update view with"), (0, i.info)(e), (0, i.publish)("appDataChange", {data: {data: e}}, [t])
+            key: "emit", value: function(e, t) {
+                (0, console.log)("Update view with"), (0, console.log)(e), (0, i.publish)("appDataChange", {data: {data: e}}, [t])
             }
         }]), e
     }();
     t.default = a
-}, function (e, t, n) {
+}, function(e, t, n) {
     "use strict";
     function o(e) {
         return e && e.__esModule ? e : {default: e}
@@ -284,7 +284,7 @@ __appServiceEngine = function (e) {
     }
 
     Object.defineProperty(t, "__esModule", {value: !0});
-    var i = function () {
+    var i = function() {
         function e(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
@@ -292,19 +292,19 @@ __appServiceEngine = function (e) {
             }
         }
 
-        return function (t, n, o) {
+        return function(t, n, o) {
             return n && e(t.prototype, n), o && e(t, o), t
         }
-    }(), a = n(1), u = n(7), c = n(5), s = o(c), p = ["onLoad", "onReady", "onShow", "onRouteEnd", "onHide", "onUnload"], f = function (e) {
+    }(), a = n(1), u = n(7), c = n(5), s = o(c), p = ["onLoad", "onReady", "onShow", "onRouteEnd", "onHide", "onUnload"], f = function(e) {
         for (var t = 0; t < p.length; ++t)if (p[t] === e)return !0;
         return "data" === e
-    }, l = ["__wxWebviewId__", "__route__", "__webviewReady__", "__waitingData__"], d = function (e) {
+    }, l = ["__wxWebviewId__", "__route__", "__webviewReady__", "__waitingData__"], d = function(e) {
         return l.indexOf(e) !== -1
-    }, h = function () {
+    }, h = function() {
         function e() {
             var t = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0], n = this, o = arguments[1], i = arguments[2];
-            r(this, e), this.__wxWebviewId__ = o, this.__route__ = i, this.__webviewReady__ = !1, this.__waitingData__ = {}, this.data = JSON.parse(JSON.stringify(t.data || {})), p.forEach(function (e) {
-                var o = function () {
+            r(this, e), this.__wxWebviewId__ = o, this.__route__ = i, this.__webviewReady__ = !1, this.__waitingData__ = {}, this.data = JSON.parse(JSON.stringify(t.data || {})), p.forEach(function(e) {
+                var o = function() {
                     var n = (t[e] || a.noop).bind(this);
                     (0, a.info)(this.__route__ + ": " + e + " have been invoked");
                     try {
@@ -319,15 +319,15 @@ __appServiceEngine = function (e) {
         }
 
         return i(e, [{
-            key: "update", value: function () {
+            key: "update", value: function() {
                 (0, a.warn)("Page.update is deprecated, setData updates the view implicitly")
             }
         }, {
-            key: "forceUpdate", value: function () {
+            key: "forceUpdate", value: function() {
                 (0, a.warn)("Page.forceUpdate is deprecated, setData updates the view implicitly")
             }
         }, {
-            key: "setData", value: function (e) {
+            key: "setData", value: function(e) {
                 try {
                     var t = (0, a.getDataType)(e);
                     "Object" !== t && (0, a.warn)("setData accepts an Object rather than some " + t);
@@ -341,7 +341,7 @@ __appServiceEngine = function (e) {
                 }
             }
         }, {
-            key: "toggleData", value: function (e) {
+            key: "toggleData", value: function(e) {
                 try {
                     var t = (0, a.getDataType)(e), n = {}, o = e;
                     if ("String" === t)o = [o]; else if ("Array" !== t)throw new a.AppServiceEngineKnownError("The parameter of Page.toggleData must be Array or String, but found " + t);
@@ -357,10 +357,10 @@ __appServiceEngine = function (e) {
         }]), e
     }();
     t.default = h
-}, function (e, t, n) {
+}, function(e, t, n) {
     "use strict";
     Object.defineProperty(t, "__esModule", {value: !0}), t.getObjectByPath = t.parsePath = void 0;
-    var o = n(1), r = t.parsePath = function (e) {
+    var o = n(1), r = t.parsePath = function(e) {
         for (var t = e.length, n = [], r = "", i = 0, a = !1, u = !1, c = 0; c < t; c++) {
             var s = e[c];
             if ("\\" === s)c + 1 < t && ("." === e[c + 1] || "[" === e[c + 1] || "]" === e[c + 1]) ? (r += e[c + 1], c++) : r += "\\"; else if ("." === s)r && (n.push(r), r = ""); else if ("[" === s) {
@@ -377,22 +377,22 @@ __appServiceEngine = function (e) {
         if (r && n.push(r), 0 === n.length)throw new o.AppServiceEngineKnownError("path can not be empty");
         return n
     };
-    t.getObjectByPath = function (e, t) {
+    t.getObjectByPath = function(e, t) {
         for (var n = r(t), i = void 0, a = void 0, u = e, c = 0; c < n.length; c++)Number(n[c]) === n[c] && n[c] % 1 === 0 ? Array.isArray(u) || (i[a] = [], u = i[a]) : (0, o.isPlainObject)(u) || (i[a] = {}, u = i[a]), a = n[c], i = u, u = u[n[c]];
         return {obj: i, key: a}
     }
-}, function (e, t) {
+}, function(e, t) {
     "use strict";
-    Object.defineProperty(t, "__esModule", {value: !0}), t.isDevTools = function () {
+    Object.defineProperty(t, "__esModule", {value: !0}), t.isDevTools = function() {
         return !!("undefined" != typeof window && window.navigator && window.navigator.userAgent && window.navigator.userAgent.indexOf("appservice") > -1)
-    }, t.addHtmlSuffixToUrl = function (e) {
+    }, t.addHtmlSuffixToUrl = function(e) {
         if ("string" != typeof e)return e;
         var t = e.split("?")[0], n = e.split("?")[1];
         return t += ".html", "undefined" != typeof n ? t + "?" + n : t
-    }, t.removeHtmlSuffixFromUrl = function (e) {
+    }, t.removeHtmlSuffixFromUrl = function(e) {
         return "string" == typeof e && e.indexOf(".html") === e.length - 4 ? e.substring(0, e.length - 5) : e
     }
-}, function (e, t) {
+}, function(e, t) {
     "use strict";
     function n(e, t) {
         if (!(e instanceof t))throw new TypeError("Cannot call a class as a function")
@@ -416,51 +416,51 @@ __appServiceEngine = function (e) {
     }
 
     Object.defineProperty(t, "__esModule", {value: !0});
-    var i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
+    var i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
         return typeof e
-    } : function (e) {
+    } : function(e) {
         return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e
-    }, a = (t.isEmptyObject = function (e) {
+    }, a = (t.isEmptyObject = function(e) {
         for (var t in e)if (e.hasOwnProperty(t))return !1;
         return !0
-    }, t.extend = function (e, t) {
+    }, t.extend = function(e, t) {
         for (var n = Object.keys(t), o = n.length; o--;)e[n[o]] = t[n[o]];
         return e
-    }), u = (t.noop = function () {
-    }, t.getDataType = function (e) {
+    }), u = (t.noop = function() {
+    }, t.getDataType = function(e) {
         return Object.prototype.toString.call(e).split(" ")[1].split("]")[0]
-    }, t.isObject = function (e) {
+    }, t.isObject = function(e) {
         return null !== e && "object" === ("undefined" == typeof e ? "undefined" : i(e))
-    }, Object.prototype.hasOwnProperty), c = (t.hasOwn = function (e, t) {
+    }, Object.prototype.hasOwnProperty), c = (t.hasOwn = function(e, t) {
         return u.call(e, t)
-    }, t.def = function (e, t, n, o) {
+    }, t.def = function(e, t, n, o) {
         Object.defineProperty(e, t, {value: n, enumerable: !!o, writable: !0, configurable: !0})
-    }, Object.prototype.toString), s = "[object Object]", p = (t.isPlainObject = function (e) {
+    }, Object.prototype.toString), s = "[object Object]", p = (t.isPlainObject = function(e) {
         return c.call(e) === s
-    }, t.error = function (e, t) {
+    }, t.error = function(e, t) {
         console.group("%c" + e, "color: red; font-size: x-large"), console.error("%c" + t, "color: red; font-size: x-large"), console.groupEnd()
-    }, t.warn = function (e) {
+    }, t.warn = function(e) {
         __wxConfig && __wxConfig.debug && console.warn(e)
-    }, t.info = function (e) {
+    }, t.info = function(e) {
         __wxConfig && __wxConfig.debug && console.info(e)
-    }, t.surroundByTryCatch = function (e) {
-        return function () {
+    }, t.surroundByTryCatch = function(e) {
+        return function() {
             try {
                 return e.apply(e, arguments)
             } catch (e) {
-                return p(e), function () {
+                return p(e), function() {
                 }
             }
         }
-    }, t.errorReport = function (e) {
+    }, t.errorReport = function(e) {
         if ("[object Error]" === Object.prototype.toString.apply(e)) {
             if ("AppServiceEngineKnownError" === e.type)throw e;
             console.error(e.stack), Reporter.errorReport({key: "jsEnginScriptError", error: e})
         }
     });
-    t.deepCopy = function (e) {
+    t.deepCopy = function(e) {
         return JSON.parse(JSON.stringify(e))
-    }, t.AppServiceEngineKnownError = function (e) {
+    }, t.AppServiceEngineKnownError = function(e) {
         function t(e) {
             n(this, t);
             var r = o(this, Object.getPrototypeOf(t).call(this, "APP-SERVICE-Engine:" + e));
@@ -468,7 +468,7 @@ __appServiceEngine = function (e) {
         }
 
         return r(t, e), t
-    }(Error), t.publish = function () {
+    }(Error), t.publish = function() {
         var e = Array.prototype.slice.call(arguments), t = {options: {timestamp: Date.now()}};
         e[1] ? e[1].options = a(e[1].options || {}, t.options) : e[1] = t, WeixinJSBridge.publish.apply(WeixinJSBridge, e)
     }
