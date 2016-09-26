@@ -1,6 +1,10 @@
 「微信小程序」 Web Demo
 ===
 
+更多精彩内容请关注：
+
+![QRCode](http://articles.phodal.com/qrcode.jpg)
+
 原理
 ---
 
