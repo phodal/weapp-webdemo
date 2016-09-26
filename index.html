@@ -128,29 +128,77 @@
                 hC.attr.class="body-view"
                 cs.push("index.wxml:text:3:6")
                 var aD=_n('text')
-                var jF=_s(s,e,'text')
-
-                var oE=typeof(jF)=='undefined'?'':jF
+                var oE="Hacking"
                 oE=oE.toString()
                 _(aD,oE)
                 cs.pop()
                 _(hC,aD)
-                cs.push("index.wxml:button:4:6")
-                var aG=_n('button')
-                aG.attr.bindtap="add"
-                var cH="add line"
-                cH=cH.toString()
-                _(aG,cH)
+                cs.push("index.wxml:view:4:6")
+                var jF=_n('view')
+                cs.push("index.wxml:block:5:7")
+                var aG=function(kI,cH,yJ,gg){
+                    cs.push("index.wxml:icon:6:8")
+                    var bL=_n('icon')
+                    var lM=_s(cH,kI,'item')
+
+                    bL.attr.size=typeof(lM)=='undefined'?'':lM
+                    bL.attr.type="success"
+                    cs.pop()
+                    _(yJ,bL)
+                    return yJ
+                }
+                var sO=[]
+                var bP=20
+                sO.push(bP)
+                var hQ=30
+                sO.push(hQ)
+                var uR=40
+                sO.push(uR)
+                var aS=50
+                sO.push(aS)
+                var hT=60
+                sO.push(hT)
+                var eU=70
+                sO.push(eU)
+                var cN=typeof(sO)=='undefined'?'':sO
+                cN=cN||[]
+                var eW={}
+                for(var _x in s)eW[_x]=s[_x]
+                for(var rV=0;rV<cN.length;rV++){
+                    eW.index=rV
+                    eW.item=cN[rV]
+                    aG(e,eW,jF,gg)
+                }
                 cs.pop()
-                _(hC,aG)
-                cs.push("index.wxml:button:5:6")
-                var kI=_n('button')
-                kI.attr.bindtap="remove"
-                var yJ="remove line"
-                yJ=yJ.toString()
-                _(kI,yJ)
                 cs.pop()
-                _(hC,kI)
+                _(hC,jF)
+                cs.push("index.wxml:view:9:6")
+                var nX=_n('view')
+                cs.push("index.wxml:text:10:7")
+                var dY=_n('text')
+                var oZ="只有渲染wxml部分是工作的~~~~"
+                oZ=oZ.toString()
+                _(dY,oZ)
+                cs.pop()
+                _(nX,dY)
+                cs.push("index.wxml:button:11:7")
+                var u1=_n('button')
+                u1.attr.bindtap="add"
+                var h2="add line"
+                h2=h2.toString()
+                _(u1,h2)
+                cs.pop()
+                _(nX,u1)
+                cs.push("index.wxml:button:12:7")
+                var u3=_n('button')
+                u3.attr.bindtap="remove"
+                var i4="remove line"
+                i4=i4.toString()
+                _(u3,i4)
+                cs.pop()
+                _(nX,u3)
+                cs.pop()
+                _(hC,nX)
                 cs.pop()
                 _(uB,hC)
                 cs.pop()
@@ -172,7 +220,8 @@
                 }
             }
         }
-        </script>
+        
+    </script>
 
 </head>
 
