@@ -30,6 +30,8 @@ wx = function (e) {
 
     var o = n(1), a = n(2);
     n(3);
+    var routes = [];
+    var historyRoute = [];
     var s = !1, c = {}, l = "devtools" === (0, a.getPlatform)(), d = function (e, t) {
         (0, o.publish)("INVOKE_METHOD", {name: e, args: t})
     }, u = {
@@ -72,6 +74,16 @@ wx = function (e) {
             (0, o.invokeMethod)("insertVideoPlayer", e)
         }, removeVideoPlayer: function (e) {
             (0, o.invokeMethod)("removeVideoPlayer", e)
+        }, onAppRoute: function(route) {
+            routes.push(route);
+        }, onWebviewEvent: function (e, t) {
+            var b =  void 0;
+            b = e, (0, o.subscribe)("PAGE_EVENT", function (t) {
+                var n = t.data, o = t.eventName, r = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1];
+                e({data: n, eventName: o, webviewId: r})
+            })
+        }, onAppRouteDone: function (e, t) {
+            historyRoute.push(e)
         }, onAppDataChange: function (e) {
             (0, o.subscribe)("pageInitData", function (t) {
                 s === !1 && (s = !0, e(t))

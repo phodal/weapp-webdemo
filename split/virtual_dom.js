@@ -14,7 +14,7 @@
             return e && e.__esModule ? e : {default: e}
         }
 
-        function r(e, t, n) {
+        function report(e, t, n) {
             var i = m[e];
             i && (Reporter.reportKeyValue({
                 key: "Speed",
@@ -29,7 +29,7 @@
             return new a.default(e, t, n, i)
         }, g = t.createText = function(e) {
             return new c.default(e)
-        }, f = t.createVirtualTree = function e(t, n) {
+        }, virtualTree = t.createVirtualTree = function e(t, n) {
             if ((0, l.isString)(t) || Number(t) === t && Number(t) % 1 === 0)return g(String(t), n);
             var i = [];
             return t.children.forEach(function(t) {
@@ -49,22 +49,29 @@
             forceUpdateRenderTime: 7
         }, x = {webviewStartTime: Date.now(), funcReady: 0, firstGetData: 0};
         document.addEventListener("generateFuncReady", function(e) {
-            x.funcReady = Date.now(), r("funcReady", x.webviewStartTime, x.funcReady);
-            var t = e.detail.generateFunc;
-            wx.onAppDataChange && t && wx.onAppDataChange((0, u.catchError)(function(e) {
-                console.log(e);
-                var n = Date.now();
-                x.firstGetData || (x.firstGetData = n, r("firstGetData", x.funcReady, x.firstGetData)), (0, d.setData)(e.data);
-                var i = t((0, d.getData)());
-                if (i.tag = "body", e.options && e.options.firstRender)e.ext && ("undefined" != typeof e.ext.webviewId && (window.__webviewId__ = e.ext.webviewId), "undefined" != typeof e.ext.downloadDomain && (window.__downloadDomain__ = e.ext.downloadDomain)), v = f(i, !0), b = v.render(), b.replaceDocumentElement(document.body), setTimeout(function() {
-                    wx.publishPageEvent(p, {}), r("firstRenderTime", n, Date.now()), wx.initReady && wx.initReady()
-                }, 0); else {
-                    var o = f(i, !1), a = v.diff(o);
-                    a.apply(b), v = o, document.dispatchEvent(new CustomEvent("pageReRender", {}));
-                    var s = Date.now();
-                    s - n > 200 && r("reRenderTime", n, Date.now())
+            var generateFunc = e.detail.generateFunc;
+
+                var i = generateFunc((0, d.getData)());
+                e.options = {
+                    firstRender: true,
                 }
-            }))
+                if (i.tag = "body", e.options && e.options.firstRender){
+                    e.ext && ("undefined" != typeof e.ext.webviewId && (window.__webviewId__ = e.ext.webviewId), "undefined" != typeof e.ext.downloadDomain && (window.__downloadDomain__ = e.ext.downloadDomain));
+                    v = virtualTree(i, !0);
+                    b = v.render();
+                    var app = document.getElementById("app");
+                    console.log(b);
+                    var parentDiv = app.parentNode;
+                    parentDiv.replaceChild(b.__domElement, app);
+
+                    // b.replaceDocumentElement(window.document.body);
+                    setTimeout(function() {
+                        wx.publishPageEvent(p, {}), wx.initReady && wx.initReady()
+                    }, 0);
+                } else {
+                    var o = virtualTree(i, !1), a = v.diff(o);
+                    a.apply(b), v = o, document.dispatchEvent(new CustomEvent("pageReRender", {}));
+                }
         })
     }, function(e, t, n) {
         "use strict";

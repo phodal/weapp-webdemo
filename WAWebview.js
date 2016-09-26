@@ -249,7 +249,7 @@ var Reporter = function (e) {
             (0, o.invokeMethod)("insertVideoPlayer", e)
         }, removeVideoPlayer: function (e) {
             (0, o.invokeMethod)("removeVideoPlayer", e)
-        }, onAppDataChange: function (e) {
+        }, onAppDeataChange: function (e) {
             (0, o.subscribe)("pageInitData", function (t) {
                 s === !1 && (s = !0, e(t))
             }), (0, o.publish)("pageReady", {}), (0, o.subscribe)("appDataChange", function (t) {
@@ -2761,9 +2761,15 @@ var Reporter = function (e) {
             var n = Date.now();
             x.firstGetData || (x.firstGetData = n, r("firstGetData", x.funcReady, x.firstGetData)), (0, d.setData)(e.data);
             var i = t((0, d.getData)());
-            if (i.tag = "body", e.options && e.options.firstRender)e.ext && ("undefined" != typeof e.ext.webviewId && (window.__webviewId__ = e.ext.webviewId), "undefined" != typeof e.ext.downloadDomain && (window.__downloadDomain__ = e.ext.downloadDomain)), v = f(i, !0), b = v.render(), b.replaceDocumentElement(document.body), setTimeout(function () {
-                wx.publishPageEvent(p, {}), r("firstRenderTime", n, Date.now()), wx.initReady && wx.initReady()
-            }, 0); else {
+            if (i.tag = "body", e.options && e.options.firstRender){
+                e.ext && ("undefined" != typeof e.ext.webviewId && (window.__webviewId__ = e.ext.webviewId), "undefined" != typeof e.ext.downloadDomain && (window.__downloadDomain__ = e.ext.downloadDomain));
+                v = f(i, !0);
+                b = v.render();
+                b.replaceDocumentElement(document.body);
+                setTimeout(function() {
+                    wx.publishPageEvent(p, {}), r("firstRenderTime", n, Date.now()), wx.initReady && wx.initReady()
+                }, 0);
+            } else {
                 var o = f(i, !1), a = v.diff(o);
                 a.apply(b), v = o, document.dispatchEvent(new CustomEvent("pageReRender", {}));
                 var s = Date.now();

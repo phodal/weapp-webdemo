@@ -45,13 +45,13 @@ __appServiceEngine = function(e) {
             }
         })
     })
-}, function(e, t, n) {
+}, function(e, appEngine, n) {
     "use strict";
     function o(e) {
         return e && e.__esModule ? e : {default: e}
     }
 
-    Object.defineProperty(t, "__esModule", {value: !0}), t.getRouteToPage = t.getWebviewIdToPage = t.setWxRouteBegin = t.setWxRoute = t.setWxConfig = t.reset = t.pageHolder = t.getCurrentPage = void 0;
+    Object.defineProperty(appEngine, "__esModule", {value: !0}), appEngine.getRouteToPage = appEngine.getWebviewIdToPage = appEngine.setWxRouteBegin = appEngine.setWxRoute = appEngine.setWxConfig = appEngine.reset = appEngine.pageHolder = appEngine.getCurrentPage = void 0;
     var r = n(1), i = n(6), a = o(i), u = n(1), c = n(4), currentPage = void 0, p = {}, f = {}, l = 0, d = {
         appRouteTime: 0,
         newPageTime: 0,
@@ -62,9 +62,9 @@ __appServiceEngine = function(e) {
             key: "Speed",
             value: o + "," + t + ",0,0," + n
         }), Reporter.log("JSEngine SpeedReport:" + e + ",startTime:" + t + ",endTime:" + n + ",cost:" + (n - t)))
-    }, g = (t.getCurrentPage = function() {
+    }, g = (appEngine.getCurrentPage = function() {
         return currentPage
-    }, t.pageHolder = function(e) {
+    }, appEngine.pageHolder = function(e) {
         if (!__wxRouteBegin)throw(0, u.error)("Page注册错误", "不要在 " + __wxRoute + ".js 注册多个Page"), new r.AppServiceEngineKnownError("Please do not register multiple Page in " + __wxRoute + ".js");
         __wxRouteBegin = !1;
         var t = __wxConfig.pages, n = t[l];
@@ -83,15 +83,15 @@ __appServiceEngine = function(e) {
             webviewId: t,
             route: e
         }, r.onLoad(n), r.onShow(), p[t] = {page: r, route: e}, h("appRoute2newPage", d.appRouteTime, d.newPageTime)
-    }), v = function(e) {
+    }), pageOnHide = function(e) {
         e.page.onHide()
-    }, y = function(e) {
+    }, pageUnload = function(e) {
         e.page.onUnload(), (0, u.isDevTools)() && (delete __wxAppData[e.route], (0, u.publish)(c.UPDATE_APP_DATA)), delete p[e.webviewId]
     }, w = function(e, t, n, o) {
-        if ((0, u.info)("On app route: " + e), d.appRouteTime = Date.now(), "navigateTo" === o)currentPage && v(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "navigateTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("redirectTo" === o)currentPage && y(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "redirectTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("navigateBack" === o)if (currentPage && y(currentPage), p.hasOwnProperty(t)) {
+        if ((0, console.log)("On app route: " + e), d.appRouteTime = Date.now(), "navigateTo" === o)currentPage && pageOnHide(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "navigateTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("redirectTo" === o)currentPage && pageUnload(currentPage), p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "redirectTo 一个已经存在的webviewId" + t) : g(e, t, n); else if ("navigateBack" === o)if (currentPage && pageUnload(currentPage), p.hasOwnProperty(t)) {
             var r = p[t].page;
             currentPage = {webviewId: t, route: e, page: r}, r.onShow()
-        } else(0, u.error)("Page route错误", "navigateBack 一个不存在的webviewId" + t); else if ("switchTab" === o)if (currentPage && v(currentPage), p.hasOwnProperty(t)) {
+        } else(0, u.error)("Page route错误", "navigateBack 一个不存在的webviewId" + t); else if ("switchTab" === o)if (currentPage && pageOnHide(currentPage), p.hasOwnProperty(t)) {
             var i = p[t].page;
             currentPage = {webviewId: t, route: e, page: i}, i.onShow()
         } else g(e, t, n); else"appLaunch" === o ? p.hasOwnProperty(t) ? (0, u.error)("Page route错误", "apppLaunch 一个已经存在的webviewId" + t) : g(e, t, n) : (0, u.error)("Page route错误", "非法Open type: " + o)
@@ -161,17 +161,17 @@ __appServiceEngine = function(e) {
                 options: {firstRender: !0}
             }
         }, [t]), n.__webviewReady__ = !0, (0, u.isEmptyObject)(n.__waitingData__) || ((0, u.info)("Update view with waiting data"), (0, u.info)(n.__waitingData__), (0, u.publish)("appDataChange", {data: {data: n.__waitingData__}}, [t]), n.__waitingData__ = {})
-    })), t.reset = function() {
+    })), appEngine.reset = function() {
         currentPage = void 0, p = {}, f = {}, l = 0
-    }, t.setWxConfig = function(e) {
+    }, appEngine.setWxConfig = function(e) {
         __wxConfig = e
-    }, t.setWxRoute = function(e) {
+    }, appEngine.setWxRoute = function(e) {
         __wxRoute = e
-    }, t.setWxRouteBegin = function(e) {
+    }, appEngine.setWxRouteBegin = function(e) {
         __wxRouteBegin = e
-    }, t.getWebviewIdToPage = function() {
+    }, appEngine.getWebviewIdToPage = function() {
         return p
-    }, t.getRouteToPage = function() {
+    }, appEngine.getRouteToPage = function() {
         return f
     }
 }, function(e, t, appEngine) {
