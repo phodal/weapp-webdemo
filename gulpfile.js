@@ -12,4 +12,15 @@ gulp.task('watch', function() {
             console.log(stderr);
         });
     });
+
+    var wxssWatcher = gulp.watch('src/**/*.wxss');
+    wxssWatcher.on('change', function(event) {
+        var outputFileName = event.path.substring(0, event.path.length - 4) + 'css';
+        outputFileName = outputFileName.replace('/src/', '/build/');
+        var inputPath = event.path.replace(__dirname + '/', '');
+        exec('./vendor/wcsc -d ' + inputPath + ' > ' + outputFileName, function(err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+        });
+    });
 });
