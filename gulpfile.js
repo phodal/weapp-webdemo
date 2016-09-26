@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-    watch = require('gulp-watch'),
     exec = require('child_process').exec;
 
 gulp.task('watch', function() {
