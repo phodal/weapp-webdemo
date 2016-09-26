@@ -53,8 +53,12 @@
 
                 var i = generateFunc((0, d.getData)());
                 e.options = {
-                    firstRender: true,
-                }
+                    firstRender: true
+                };
+            wx.onAppDataChange(function(value){
+               console.log("onAppDataChange: ================");
+            });
+            console.log("render ....");
                 if (i.tag = "body", e.options && e.options.firstRender){
                     e.ext && ("undefined" != typeof e.ext.webviewId && (window.__webviewId__ = e.ext.webviewId), "undefined" != typeof e.ext.downloadDomain && (window.__downloadDomain__ = e.ext.downloadDomain));
                     v = virtualTree(i, !0);

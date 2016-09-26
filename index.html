@@ -35,7 +35,7 @@
     </script>
     <script>
         __wxRoute = 'index';
-        __wxRouteBegin = true
+        __wxRouteBegin = true;
         __wxConfig = {
             "debug": true,
             "pages": ["index"],
@@ -86,12 +86,13 @@
         }
     </script>
     <script src="./split/wxJSBridge.js"></script>
-    <script src="./split/wx.js"></script>
     <script src="./split/virtual_dom.js"></script>
     <script src="./split/report.js"></script>
     <script src="./split/exparser.js"></script>
-    <script src="./split/exparser-behvaior.js"></script>
+    <script src="./split/exparser-behavior.js"></script>
     <script src="./split/define.js"></script>
+
+    <script src="./split/wx.js"></script>
     <script src="./split/page.js"></script>
 
     <!--{{allWXML}}-->
@@ -124,13 +125,6 @@
 <body>
 <div id="app"></div>
 </body>
-<script>
-    document.dispatchEvent(new CustomEvent("generateFuncReady", {
-        detail: {
-            generateFunc: $gwx('src/index.wxml')
-        }
-    }))
-</script>
 <script>
     define("app.js", function (require, module) {
         var window = {Math: Math}/*兼容babel*/, location, document, navigator, self, localStorage, history, Caches;
@@ -178,5 +172,14 @@
 
     });
     require("pages/index/index.js");
+
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("start");
+        document.dispatchEvent(new CustomEvent("generateFuncReady", {
+            detail: {
+                generateFunc: $gwx('src/index.wxml')
+            }
+        }))
+    });
 </script>
 </html>

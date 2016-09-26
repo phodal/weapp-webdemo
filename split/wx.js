@@ -29,11 +29,12 @@ wx = function (e) {
     }
 
     var WeixinJSBridge = n(1), a = n(2);
+    console.log(WeixinJSBridge);
     n(3);
     var routes = [];
     var historyRoute = [];
-    var s = !1, c = {}, l = "devtools" === (0, a.getPlatform)(), d = function (e, t) {
-        (0, WeixinJSBridge.publish)("INVOKE_METHOD", {name: e, args: t})
+    var s = !1, c = {}, l = "devtools" === (0, a.getPlatform)(), routeChange = function (name, args) {
+        (0, WeixinJSBridge.publish)("INVOKE_METHOD", {name: name, args: args})
     }, bindEvents = {
         invoke: WeixinJSBridge.invoke, on: WeixinJSBridge.on, reportIDKey: function (e, t) {
             console.warn("reportIDKey has been removed wx")
@@ -45,10 +46,10 @@ wx = function (e) {
             (0, WeixinJSBridge.invokeMethod)("initReady")
         },
         redirectTo: function (e) {
-            d("redirectTo", e)
+            routeChange("redirectTo", e)
         },
         navigateTo: function (e) {
-            d("navigateTo", e)
+            routeChange("navigateTo", e)
         },
         showKeyboard: function (e) {
             (0, WeixinJSBridge.invokeMethod)("showKeyboard", e)
@@ -102,14 +103,15 @@ wx = function (e) {
         onAppRouteDone: function (e, t) {
             historyRoute.push(e)
         },
-        onAppDataChange: function (e) {
-            console.log("--------------");
-            console.log(0);
+        onAppDataChange: function (callback) {
             (0, WeixinJSBridge.subscribe)("pageInitData", function (t) {
-                s === !1 && (s = !0, e(t))
-            }), (0, WeixinJSBridge.publish)("pageReady", {}), (0, WeixinJSBridge.subscribe)("appDataChange", function (t) {
+                s === !1 && (s = !0, callback(t))
+            });
+            (0, WeixinJSBridge.publish)("pageReady", {});
+            console.log("WeixinJSBridge.subscribe publish pageReady"),
+            (0, WeixinJSBridge.subscribe)("appDataChange", function (t) {
                 setTimeout(function () {
-                    e(t)
+                    callback(t)
                 }, 0)
             })
         },
