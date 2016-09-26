@@ -118,15 +118,15 @@
             if(global&&typeof(global.defines)=='object')d_=global.defines
             var p_={}
             var cs
-            d_['map.wxml']={}
+            d_['index.wxml']={}
             var m0=function(e,s,r,gg){
-                cs.push("map.wxml:view:1:1")
+                cs.push("index.wxml:view:1:1")
                 var uB=_n('view')
                 uB.attr.class="btn-area"
-                cs.push("map.wxml:view:2:4")
+                cs.push("index.wxml:view:2:4")
                 var hC=_n('view')
                 hC.attr.class="body-view"
-                cs.push("map.wxml:text:3:6")
+                cs.push("index.wxml:text:3:6")
                 var aD=_n('text')
                 var jF=_s(s,e,'text')
 
@@ -135,7 +135,7 @@
                 _(aD,oE)
                 cs.pop()
                 _(hC,aD)
-                cs.push("map.wxml:button:4:6")
+                cs.push("index.wxml:button:4:6")
                 var aG=_n('button')
                 aG.attr.bindtap="add"
                 var cH="add line"
@@ -143,7 +143,7 @@
                 _(aG,cH)
                 cs.pop()
                 _(hC,aG)
-                cs.push("map.wxml:button:5:6")
+                cs.push("index.wxml:button:5:6")
                 var kI=_n('button')
                 kI.attr.bindtap="remove"
                 var yJ="remove line"
@@ -157,7 +157,7 @@
                 _(r,uB)
                 return r
             }
-            e_["map.wxml"]={f:m0,i:[],ti:[],ic:[]}
+            e_["index.wxml"]={f:m0,i:[],ti:[],ic:[]}
             if(path&&e_[path]){
                 return function(env,global){$gwxc=0;var root={"tag":"wx-page"};root.children=[]
                     var main=e_[path].f
@@ -172,7 +172,7 @@
                 }
             }
         }
-    </script>
+        </script>
 
 </head>
 
@@ -182,7 +182,7 @@
 <script>
     document.dispatchEvent(new CustomEvent("generateFuncReady", {
         detail: {
-            generateFunc: $gwx('map.wxml')
+            generateFunc: $gwx('index.wxml')
         }
     }))
 </script>
@@ -198,28 +198,29 @@
 
     define("pages/index/index.js", function(require, module){var window={Math:Math}/*兼容babel*/,location,document,navigator,self,localStorage,history,Caches;
         var app = getApp();
+        var initData = 'this is first line\nthis is second line'
+        var extraLine = [];
+
         Page({
             data: {
-                motto: 'Hello World',
-                userInfo: {}
+                text: initData
             },
-            //事件处理函数
-            bindViewTap: function() {
-
-            },
-            onLoad: function () {
-                console.log('onLoad');
-                var that = this
-                //调用应用实例的方法获取全局数据
-                app.getUserInfo(function(userInfo){
-                    //更新数据
-                    that.setData({
-                        userInfo:userInfo
-                    })
+            add: function(e) {
+                extraLine.push('other line')
+                console.log(e);
+                this.setData({
+                    text: initData + '\n' + extraLine.join('\n')
                 })
+            },
+            remove: function(e) {
+                if (extraLine.length > 0) {
+                    extraLine.pop()
+                    this.setData({
+                        text: initData + '\n' + extraLine.join('\n')
+                    })
+                }
             }
-        })
-    });
+        })    });
     require("pages/index/index.js");
 </script>
 </html>

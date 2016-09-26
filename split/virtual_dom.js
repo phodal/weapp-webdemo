@@ -60,7 +60,6 @@
                     v = virtualTree(i, !0);
                     b = v.render();
                     var app = document.getElementById("app");
-                    console.log(b);
                     var parentDiv = app.parentNode;
                     parentDiv.replaceChild(b.__domElement, app);
 
