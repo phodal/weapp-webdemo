@@ -32,38 +32,35 @@ cs.push("src/index.wxml:image:5:10")
 var oE=_n('image')
 oE.attr.backgroundSize="cover"
 oE.attr.class="userinfo-avatar"
-var aG=_s(s,e,'userInfo')
-
-var jF=aG?aG.avatarUrl:undefined
-oE.attr.src=typeof(jF)=='undefined'?'':jF
+oE.attr.src="http://wx.qlogo.cn/mmhead/Q3auHgzwzM7pIm6FdyB5rlkI0JCr9uOr8n7aCIQ4RsyG0oPeicO9pfQ/132"
 cs.pop()
 _(aD,oE)
 cs.push("src/index.wxml:text:6:10")
-var cH=_n('text')
-cH.attr.class="userinfo-nickname"
-var sK=_s(s,e,'userInfo')
+var jF=_n('text')
+jF.attr.class="userinfo-nickname"
+var kI=_s(s,e,'userInfo')
 
-var yJ=sK?sK.nickName:undefined
-var kI=typeof(yJ)=='undefined'?'':yJ
-kI=kI.toString()
-_(cH,kI)
+var cH=kI?kI.nickName:undefined
+var aG=typeof(cH)=='undefined'?'':cH
+aG=aG.toString()
+_(jF,aG)
 cs.pop()
-_(aD,cH)
+_(aD,jF)
 cs.pop()
 _(hC,aD)
 cs.push("src/index.wxml:view:8:8")
-var bL=_n('view')
-bL.attr.class="usermotto"
+var yJ=_n('view')
+yJ.attr.class="usermotto"
 cs.push("src/index.wxml:text:9:10")
-var lM=_n('text')
-lM.attr.class="user-motto"
-var cN="hello,world"
-cN=cN.toString()
-_(lM,cN)
+var sK=_n('text')
+sK.attr.class="user-motto"
+var bL="hello,world"
+bL=bL.toString()
+_(sK,bL)
 cs.pop()
-_(bL,lM)
+_(yJ,sK)
 cs.pop()
-_(hC,bL)
+_(hC,yJ)
 cs.pop()
 _(uB,hC)
 cs.pop()

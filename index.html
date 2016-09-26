@@ -93,6 +93,7 @@
     <script src="./split/exparser-behvaior.js"></script>
     <script src="./split/define.js"></script>
     <script src="./split/page.js"></script>
+
     <!--{{allWXML}}-->
     <!--{{eruda}}-->
     <!--{{style}}-->
@@ -108,6 +109,13 @@
             justify-content: space-between;
             padding: 200px 0;
             box-sizing: border-box;
+        }
+
+        .userinfo-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            vertical-align: middle;
         }
 
     </style>
@@ -132,7 +140,8 @@
             },
             globalData: {
                 userInfo: {
-                    nickName: 'Phodal'
+                    nickName: 'Phodal',
+                    avatarUrl: 'http://wx.qlogo.cn/mmhead/Q3auHgzwzM7pIm6FdyB5rlkI0JCr9uOr8n7aCIQ4RsyG0oPeicO9pfQ/132'
                 },
                 motto: 'hello,world'
             }
