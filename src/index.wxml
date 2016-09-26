@@ -1,0 +1,7 @@
+<view class="btn-area">
+    <view class="body-view">
+        <text>{{text}}</text>
+        <button bindtap="add">add line</button>
+        <button bindtap="remove">remove line</button>
+    </view>
+</view>

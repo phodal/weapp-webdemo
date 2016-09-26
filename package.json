@@ -1,0 +1,27 @@
+{
+  "name": "weapp-webdemo",
+  "version": "0.0.1",
+  "description": "A WeApp Demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phodal/weapp-webdemo.git"
+  },
+  "keywords": [
+    "weapp",
+    "wx",
+    "weixin"
+  ],
+  "author": "Phodal Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phodal/weapp-webdemo/issues"
+  },
+  "homepage": "https://github.com/phodal/weapp-webdemo#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
