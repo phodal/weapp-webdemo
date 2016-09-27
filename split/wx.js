@@ -28,22 +28,21 @@ wx = function (e) {
         }
     }
 
-    var WeixinJSBridge = n(1), a = n(2);
-    console.log(WeixinJSBridge);
+    var appEngineEvent = n(1), a = n(2);
     n(3);
     var routes = [];
     var historyRoute = [];
     var s = !1, c = {}, l = "devtools" === (0, a.getPlatform)(), routeChange = function (name, args) {
-        (0, WeixinJSBridge.publish)("INVOKE_METHOD", {name: name, args: args})
+        (0, appEngineEvent.publish)("INVOKE_METHOD", {name: name, args: args})
     }, bindEvents = {
-        invoke: WeixinJSBridge.invoke, on: WeixinJSBridge.on, reportIDKey: function (e, t) {
+        invoke: appEngineEvent.invoke, on: appEngineEvent.on, reportIDKey: function (e, t) {
             console.warn("reportIDKey has been removed wx")
         },
         reportKeyValue: function (e, t) {
             console.warn("reportKeyValue has been removed from wx")
         },
         initReady: function () {
-            (0, WeixinJSBridge.invokeMethod)("initReady")
+            (0, appEngineEvent.invokeMethod)("initReady")
         },
         redirectTo: function (e) {
             routeChange("redirectTo", e)
@@ -52,25 +51,25 @@ wx = function (e) {
             routeChange("navigateTo", e)
         },
         showKeyboard: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("showKeyboard", e)
+            (0, appEngineEvent.invokeMethod)("showKeyboard", e)
         },
         showDatePickerView: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("showDatePickerView", e)
+            (0, appEngineEvent.invokeMethod)("showDatePickerView", e)
         },
         hideKeyboard: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("hideKeyboard", e)
+            (0, appEngineEvent.invokeMethod)("hideKeyboard", e)
         },
         insertMap: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("insertMap", e)
+            (0, appEngineEvent.invokeMethod)("insertMap", e)
         },
         removeMap: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("removeMap", e)
+            (0, appEngineEvent.invokeMethod)("removeMap", e)
         },
         updateMapCovers: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("updateMapCovers", e)
+            (0, appEngineEvent.invokeMethod)("updateMapCovers", e)
         },
         getRealRoute: a.getRealRoute, getCurrentRoute: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("getCurrentRoute", e, {
+            (0, appEngineEvent.invokeMethod)("getCurrentRoute", e, {
                 beforeSuccess: function (e) {
                     e.route = e.route.split("?")[0]
                 }
@@ -80,22 +79,22 @@ wx = function (e) {
             "string" == typeof e.path ? bindEvents.getCurrentRoute({
                 success: function (t) {
                     var n = t.route;
-                    e.path = (0, a.getRealRoute)(n || "index.html", e.path), (0, WeixinJSBridge.invokeMethod)("getLocalImgData", e)
+                    e.path = (0, a.getRealRoute)(n || "index.html", e.path), (0, appEngineEvent.invokeMethod)("getLocalImgData", e)
                 }
-            }) : (0, WeixinJSBridge.invokeMethod)("getLocalImgData", e)
+            }) : (0, appEngineEvent.invokeMethod)("getLocalImgData", e)
         },
         insertVideoPlayer: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("insertVideoPlayer", e)
+            (0, appEngineEvent.invokeMethod)("insertVideoPlayer", e)
         },
         removeVideoPlayer: function (e) {
-            (0, WeixinJSBridge.invokeMethod)("removeVideoPlayer", e)
+            (0, appEngineEvent.invokeMethod)("removeVideoPlayer", e)
         },
         onAppRoute: function (route) {
             routes.push(route);
         },
         onWebviewEvent: function (e, t) {
             var b = void 0;
-            b = e, (0, WeixinJSBridge.subscribe)("PAGE_EVENT", function (t) {
+            b = e, (0, appEngineEvent.subscribe)("PAGE_EVENT", function (t) {
                 var n = t.data, o = t.eventName, r = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1];
                 e({data: n, eventName: o, webviewId: r})
             })
@@ -104,19 +103,19 @@ wx = function (e) {
             historyRoute.push(e)
         },
         onAppDataChange: function (callback) {
-            (0, WeixinJSBridge.subscribe)("pageInitData", function (t) {
+            (0, appEngineEvent.subscribe)("pageInitData", function (t) {
                 s === !1 && (s = !0, callback(t))
             });
-            (0, WeixinJSBridge.publish)("pageReady", {});
+            (0, appEngineEvent.publish)("pageReady", {});
             console.log("WeixinJSBridge.subscribe publish pageReady"),
-            (0, WeixinJSBridge.subscribe)("appDataChange", function (t) {
+            (0, appEngineEvent.subscribe)("appDataChange", function (t) {
                 setTimeout(function () {
                     callback(t)
                 }, 0)
             })
         },
         publishPageEvent: function (e, t) {
-            (0, WeixinJSBridge.publish)("PAGE_EVENT", {eventName: e, data: t})
+            (0, appEngineEvent.publish)("PAGE_EVENT", {eventName: e, data: t})
         }, animationToStyle: a.animationToStyle
     };
     for (var event in bindEvents) {

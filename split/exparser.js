@@ -7,10 +7,23 @@ exparser = function (e) {
 
     var n = {};
     return t.m = e, t.c = n, t.p = "", t(0)
-}([function (e, t, n) {
-    var i = n(1), r = n(3), o = n(4), a = n(5), s = n(9), c = n(10);
-    t.Behavior = r, t.Element = o, t.Component = a, t.Observer = c, t.registerBehavior = r.create, t.registerElement = a.register, t.createElement = a.create, t.createTextNode = s.create, t.addListenerToElement = i.addListenerToElement, t.addListenerToShadowRoot = i.addListenerToShadowRoot, t.removeListenerFromElement = i.removeListenerFromElement, t.removeListenerFromShadowRoot = i.removeListenerFromShadowRoot, t.triggerEvent = i.triggerEvent, t.triggerDocumentEvent = i.triggerDocumentEvent
-}, function (e, t, n) {
+}([function (e, exparser, currentModule) {
+    var eventHandler = currentModule(1), Behavior = currentModule(3), Element = currentModule(4), Component = currentModule(5), s = currentModule(9), Observer = currentModule(10);
+    exparser.Behavior = Behavior,
+        exparser.Element = Element,
+        exparser.Component = Component,
+        exparser.Observer = Observer,
+        exparser.registerBehavior = Behavior.create,
+        exparser.registerElement = Component.register,
+        exparser.createElement = Component.create,
+        exparser.createTextNode = s.create,
+        exparser.addListenerToElement = eventHandler.addListenerToElement,
+        exparser.addListenerToShadowRoot = eventHandler.addListenerToShadowRoot,
+        exparser.removeListenerFromElement = eventHandler.removeListenerFromElement,
+        exparser.removeListenerFromShadowRoot = eventHandler.removeListenerFromShadowRoot,
+        exparser.triggerEvent = eventHandler.triggerEvent,
+        exparser.triggerDocumentEvent = eventHandler.triggerDocumentEvent
+}, function (e, eventHandler, n) {
     var i = n(2), r = function (e) {
         if (e) {
             for (var t = [], n = 0; n < e.length; n++) {
@@ -50,17 +63,17 @@ exparser = function (e) {
             if (g.__wxEvents && g.__wxEvents[t] && p(g.__wxEvents[t], f), i || a)break
         }
     };
-    t.addListenerToElement = function (e, t, n) {
+    eventHandler.addListenerToElement = function (e, t, n) {
         return e = e.__domElement || e, e.__wxEvents || (e.__wxEvents = Object.create(null)), e.__wxEvents[t] || (e.__wxEvents[t] = i.create()), e.__wxEvents[t].add(n)
-    }, t.addListenerToShadowRoot = function (e, t, n) {
+    }, eventHandler.addListenerToShadowRoot = function (e, t, n) {
         return e = e.__domElement || e, e.__wxShadowRootEvents || (e.__wxShadowRootEvents = Object.create(null)), e.__wxShadowRootEvents[t] || (e.__wxShadowRootEvents[t] = i.create()), e.__wxShadowRootEvents[t].add(n)
-    }, t.removeListenerFromElement = function (e, t, n) {
+    }, eventHandler.removeListenerFromElement = function (e, t, n) {
         e = e.__domElement || e, e.__wxEvents && e.__wxEvents[t] && e.__wxEvents[t].remove(n)
-    }, t.removeListenerFromShadowRoot = function (e, t, n) {
+    }, eventHandler.removeListenerFromShadowRoot = function (e, t, n) {
         e = e.__domElement || e, e.__wxShadowRootEvents && e.__wxShadowRootEvents[t] && e.__wxShadowRootEvents[t].remove(n)
-    }, t.triggerEvent = function (e, t, n, i) {
+    }, eventHandler.triggerEvent = function (e, t, n, i) {
         a({target: e}, t, n, i)
-    }, t.triggerDocumentEvent = a
+    }, eventHandler.triggerDocumentEvent = a
 }, function (e, t) {
     var n = function () {
     };
@@ -90,19 +103,19 @@ exparser = function (e) {
         if (i)return !1
     }, e.exports = n
 }, function (e, t) {
-    var n = function () {
+    var Behavior = function () {
     };
-    n.prototype = Object.create(Object.prototype, {constructor: {value: n, writable: !0, configurable: !0}});
+    Behavior.prototype = Object.create(Object.prototype, {constructor: {value: Behavior, writable: !0, configurable: !0}});
     var i = ["created", "attached", "detached", "contentChanged"], r = 1;
-    n.create = function (e) {
-        var t = String(r++), o = n.list[e.is || ""] = Object.create(n.prototype, {
+    Behavior.create = function (e) {
+        var t = String(r++), o = Behavior.list[e.is || ""] = Object.create(Behavior.prototype, {
             is: {value: e.is || ""},
             _id: {value: t}
         });
         o.template = e.template, o.properties = Object.create(null), o.methods = Object.create(null), o.listeners = Object.create(null);
         for (var a = o.ancestors = [], s = "", c = 0; c < (e.behaviors || []).length; c++) {
             var l = e.behaviors[c];
-            "string" == typeof l && (l = n.list[l]);
+            "string" == typeof l && (l = Behavior.list[l]);
             for (s in l.properties)o.properties[s] = l.properties[s];
             for (s in l.methods)o.methods[s] = l.methods[s];
             for (var d = 0; d < l.ancestors.length; d++)a.indexOf(l.ancestors[d]) < 0 && a.push(l.ancestors[d])
@@ -111,16 +124,16 @@ exparser = function (e) {
         for (s in e.listeners)o.listeners[s] = e.listeners[s];
         for (s in e)"function" == typeof e[s] && (i.indexOf(s) < 0 ? o.methods[s] = e[s] : o[s] = e[s]);
         return a.push(o), o
-    }, n.list = Object.create(null), n.prototype.hasBehavior = function (e) {
+    }, Behavior.list = Object.create(null), Behavior.prototype.hasBehavior = function (e) {
         for (var t = 0; t < this.ancestors.length; t++)if (this.ancestors[t].is === e)return !0;
         return !1
-    }, n.prototype.getAllListeners = function () {
+    }, Behavior.prototype.getAllListeners = function () {
         for (var e = Object.create(null), t = this.ancestors, n = 0; n < t.length; n++) {
             var i = this.ancestors[n];
             for (var r in i.listeners)e[r] ? e[r].push(i.listeners[r]) : e[r] = [i.listeners[r]]
         }
         return e
-    }, n.prototype.getAllLifeTimeFuncs = function () {
+    }, Behavior.prototype.getAllLifeTimeFuncs = function () {
         var e = Object.create(null), t = this.ancestors;
         return i.forEach(function (n) {
             for (var i = e[n] = [], r = 0; r < t.length; r++) {
@@ -128,7 +141,7 @@ exparser = function (e) {
                 o[n] && i.push(o[n])
             }
         }), e
-    }, e.exports = n
+    }, e.exports = Behavior
 }, function (e, t, n) {
     var i = n(2), r = function () {
     };
@@ -328,7 +341,7 @@ exparser = function (e) {
         return t
     }
 
-    function s(e, t, n) {
+    function parseTemplate(e, t, n) {
         var s = a(e.attributes), u = {
             parseTextContent: void 0 !== s["parse-text-content"],
             keepWhiteSpace: void 0 !== s["keep-white-space"]
@@ -424,9 +437,9 @@ exparser = function (e) {
     }
 
     var c = n(7), l = n(8), d = String.fromCharCode(36);
-    t.parseTemplate = s
+    t.parseTemplate = parseTemplate
 }, function (e, t, n) {
-    function i(e, t, n, i) {
+    function parserWxRepeat(e, t, n, i) {
         var o = i.index, a = i.item, s = r.parseTemplate(e, {}, n);
         return {
             createInstance: function () {
@@ -447,7 +460,7 @@ exparser = function (e) {
     }
 
     var r = n(6);
-    t.parseWxRepeat = i
+    t.parseWxRepeat = parserWxRepeat
 }, function (e, t) {
     var n = function () {
     };
