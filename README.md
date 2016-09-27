@@ -8,8 +8,10 @@
 原理
 ---
 
-### 真实世界下的MINA三基本元素
-
+<details>
+<summary>
+  **真实世界下的MINA三基本元素**
+</summary>
 「微信小程序」的背后运行的是一个名为MINA框架。在之前的几篇文章里，我们介绍得差不多了。现在让我们来作介绍pipeline：
 
 #### Transform wxml和wxss
@@ -57,8 +59,13 @@ define("pages/index/index.js", function(require, module){var window={Math:Math}/
 ```    
 
 至于它是如何replace或者apend到html中，我就不作解释了。
+</details>
 
-### MINA如何运行？
+
+<details>
+<summary>
+  **MINA如何运行？**
+</summary>
 
 为了运行一个Page，我们需要有一个virtual dom，即用wcc转换后的函数，如：
 
@@ -145,9 +152,12 @@ document.addEventListener("generateFuncReady", function (e) {
 很明显view会被转换为wx-view，text会被转换为wx-text等等，以此类推。这个转换是在virtual dom.js中调用的，调用的方法就是exparser。
 
 遗憾的是我现在困在 data初始化上面了~~，这里面有两套不同的事件系统，有一些困扰。其中有一个是：WeixinJSBridge、还有一个是app engine中的事件系统，两个好像不能互调。。。
+</details>
 
-### 使用WebStorm开发
-
+<details>
+<summary>
+  **使用WebStorm开发**
+</summary>
 在浏览器上运行之前，我们需要简单的mock一些方法，如：
 
  - window.webkit.messageHandlers.invokeHandler.postMessage
@@ -196,3 +206,4 @@ exec('./vendor/wcc -d ' + inputPath + ' > ' + outputFileName, function(err, stdo
 
 说了这么多，你还不如去看代码好了。
 
+</detail>
