@@ -27,38 +27,36 @@
             return e && e.__esModule ? e : {"default": e}
         }
 
-        function r(e) {
-            var t = e.command, n = e.msg || {}, o = e.ext || {};
-            if ("WINDOW_GET_WEBAPP_ERROR" === t) {
-                var r = n.fileName, i = n.errStr;
+        function runFunction(option) {
+            var command = option.command, msg = option.msg || {}, ext = option.ext || {};
+            if ("WINDOW_GET_WEBAPP_ERROR" === command) {
+                var r = msg.fileName, i = msg.errStr;
                 return console.group("%c加载 " + r + " 错误", "color: red; font-size: x-large"), console.error("%c" + i, "color: red; font-size: x-large"), void console.groupEnd()
             }
-            if ("MSG_FROM_WEBVIEW" === t || "GET_ASSDK_RES" === t) {
-                var a = n.eventName || o.sdkName;
-                s["default"].debugLog(new Date + " GetMsg " + a, [a, n, o]), s["default"].debugInfo({
+            if ("MSG_FROM_WEBVIEW" === command || "GET_ASSDK_RES" === command) {
+                var eventName = msg.eventName || ext.sdkName;
+                s["default"].debugLog(new Date + " GetMsg " + eventName, [eventName, msg, ext]), s["default"].debugInfo({
                     type: "GetMsg",
-                    eventName: a,
-                    data: [a, n, o],
+                    eventName: eventName,
+                    data: [eventName, msg, ext],
                     timesmap: new Date
                 })
             }
-            if ("MSG_FROM_WEBVIEW" === t) {
-                var u = n.eventName, l = (n.type, n.data || {});
-                0 === u.indexOf("publish_") ? (u = u.replace(/^publish_/, ""), f["default"].emit("triggerSubscribeEvent", u, l, n.webviewID)) : (u = u.replace(/^sys_/, ""), f["default"].emit("triggerOnEvent", u, l, n.webviewID))
-            } else if ("GET_APP_DATA" === t) c["default"].sendMsgToNW({
+            if ("MSG_FROM_WEBVIEW" === command) {
+                var eventName = msg.eventName, l = (msg.type, msg.data || {});
+                0 === eventName.indexOf("publish_") ? (eventName = eventName.replace(/^publish_/, ""), f["default"].emit("triggerSubscribeEvent", eventName, l, msg.webviewID)) : (eventName = eventName.replace(/^sys_/, ""), f["default"].emit("triggerOnEvent", eventName, l, msg.webviewID))
+            } else if ("GET_APP_DATA" === command) c["default"].sendMsgToNW({
                 appData: __wxAppData,
                 sdkName: "send_app_data"
-            }); else if ("WRITE_APP_DATA" === t)for (var d in n) {
-                var p = n[d], v = p.__webviewId__;
+            }); else if ("WRITE_APP_DATA" === command)for (var d in msg) {
+                var p = msg[d], v = p.__webviewId__;
                 console.log(p), (0, _["default"])("appDataChange", {data: {data: p}}, [v], !0)
             }
         }
 
         Object.defineProperty(t, "__esModule", {value: !0});
         var i = n(2), s = o(i), a = n(5), u = (o(a), n(3)), c = o(u), l = n(6), f = o(l), d = n(8), p = o(d), v = n(10), g = o(v), h = n(11), _ = o(h), m = n(12), w = o(m);
-        console.log(c);
-        console.log(t);
-        c["default"].registerCallback(r), t["default"] = {
+        c["default"].registerCallback(runFunction), t["default"] = {
             invoke: w["default"],
             on: p["default"],
             subscribe: g["default"],
@@ -124,18 +122,18 @@
         }
 
         Object.defineProperty(t, "__esModule", {value: !0});
-        // var r = n(2), i = (o(r), n(4)), s = __wxConfig.apphash, a = __wxConfig.appid, u = __wxConfig.appname, c = navigator.userAgent, webViewId = parseInt(c.match(/webview\/(\d*)/)[1]), f = [], d = [], p = function () {
-        var r = n(2), i = (o(r), n(4)), s = __wxConfig.apphash, a = __wxConfig.appid, u = __wxConfig.appname, c = 'Android webview/1', webViewId = parseInt(c.match(/webview\/(\d*)/)[1]), f = [], d = [], p = function () {
-            for (var e in d)d[e].apply(this, arguments)
-        }, registerCallback = function (e) {
-            d.push(e)
+        // var r = n(2), i = (o(r), n(4)), s = __wxConfig.apphash, a = __wxConfig.appid, u = __wxConfig.appname, c = navigator.userAgent, webViewId = parseInt(c.match(/webview\/(\registerCallbacks*)/)[1]), pageData = [], registerCallbacks = [], applyCallback = function () {
+        var r = n(2), i = (o(r), n(4)), s = __wxConfig.apphash, a = __wxConfig.appid, u = __wxConfig.appname, c = 'Android webview/1', webViewId = parseInt(c.match(/webview\/(\d*)/)[1]), pageData = [], registerCallbacks = [], applyCallback = function () {
+            for (var e in registerCallbacks)registerCallbacks[e].apply(this, arguments)
+        }, registerCallback = function (callback) {
+            registerCallbacks.push(callback)
         }, g = 0, sendMsgToNW = function (e) {
-            var t = JSON.parse(JSON.stringify(e));
-            t.to = "backgroundjs", t.comefrom = "webframe", t.command = "COMMAND_FROM_ASJS", t.appid = a, t.appname = u, t.apphash = s, t.webviewID = webViewId, t.__id = g, g++, window.postMessage(t, "*")
+            var options = JSON.parse(JSON.stringify(e));
+            options.to = "backgroundjs", options.comefrom = "webframe", options.command = "COMMAND_FROM_ASJS", options.appid = a, options.appname = u, options.apphash = s, options.webviewID = webViewId, options.__id = g, g++, window.postMessage(options, "*")
         }, _ = function (e) {
             e.command = "COMMAND_FROM_ASJS", e.appid = a, e.appname = u, e.apphash = s, e.webviewID = webViewId;
             var t = "____sdk____" + JSON.stringify(e), n = prompt(t);
-            n = JSON.parse(n), delete n.to, p(n)
+            n = JSON.parse(n), delete n.to, applyCallback(n)
         };
         window._____sendMsgToNW = sendMsgToNW;
         var m = function (e) {
@@ -145,12 +143,13 @@
             o ? _(r) : sendMsgToNW(r)
         };
         window.addEventListener("message", function (e) {
-            var t = e.data, n = t.to;
-            if ("appservice" === n)return delete n.appservice, "complete" !== document.readyState ? void f.push(t) : void p(t)
+            var data = e.data, to = data.to;
+            console.log(e);
+            if ("appservice" === to)return delete to.appservice, "complete" !== document.readyState ? void pageData.push(data) : void applyCallback(data)
         }), window.addEventListener("load", function () {
-            f.forEach(function (e) {
-                p(e)
-            }), f = []
+            pageData.forEach(function (callback) {
+                applyCallback(callback)
+            }), pageData = []
         }), m({command: "SHAKE_HANDS"}), t["default"] = {brigeToNW: brigeToNW, sendMsgToNW: sendMsgToNW, registerCallback: registerCallback}
     }, function (e, t) {
         "use strict";
